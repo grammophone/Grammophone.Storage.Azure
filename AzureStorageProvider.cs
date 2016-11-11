@@ -9,9 +9,9 @@ using Microsoft.WindowsAzure.Storage.Blob;
 namespace Grammophone.Storage.Azure
 {
 	/// <summary>
-	/// Azure implementation of a <see cref="IStorageClient"/>.
+	/// Azure implementation of a <see cref="IStorageProvider"/>.
 	/// </summary>
-	public class AzureStorageClient : IStorageClient
+	public class AzureStorageProvider : IStorageProvider
 	{
 		#region Private fields
 
@@ -25,7 +25,7 @@ namespace Grammophone.Storage.Azure
 		/// Create.
 		/// </summary>
 		/// <param name="connectionString">The connection string to an Azure storage account.</param>
-		public AzureStorageClient(string connectionString)
+		public AzureStorageProvider(string connectionString)
 		{
 			if (connectionString == null) throw new ArgumentNullException(nameof(connectionString));
 
