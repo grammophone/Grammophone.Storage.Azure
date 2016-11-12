@@ -73,9 +73,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AzureStorageProvider.cs" />
+    <Compile Include="AzureStorageClient.cs" />
     <Compile Include="AzureStorageContainer.cs" />
     <Compile Include="AzureStorageFile.cs" />
+    <Compile Include="AzureStorageProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
