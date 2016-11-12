@@ -52,11 +52,10 @@ namespace Grammophone.Storage.Azure
 
 		#region Public methods
 
-		public async Task<IStorageFile> CreateFileAsync(string filename, string contentType, Stream stream, bool overwrite = true)
+		public async Task<IStorageFile> CreateFileAsync(string filename, string contentType, Stream stream = null, bool overwrite = true)
 		{
 			if (filename == null) throw new ArgumentNullException(nameof(filename));
 			if (contentType == null) throw new ArgumentNullException(nameof(contentType));
-			if (stream == null) throw new ArgumentNullException(nameof(stream));
 
 			var blob = cloudBlobContainer.GetBlockBlobReference(filename);
 
@@ -68,7 +67,10 @@ namespace Grammophone.Storage.Azure
 				}
 			}
 
-			await blob.UploadFromStreamAsync(stream);
+			if (stream != null)
+			{
+				await blob.UploadFromStreamAsync(stream);
+			}
 
 			blob.Properties.ContentType = contentType;
 			await blob.SetPropertiesAsync();

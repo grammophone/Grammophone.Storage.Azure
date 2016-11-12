@@ -85,6 +85,11 @@ namespace Grammophone.Storage.Azure
 			return await cloudBlockBlob.OpenReadAsync();
 		}
 
+		public async Task<Stream> OpenWriteAsync()
+		{
+			return await cloudBlockBlob.OpenWriteAsync();
+		}
+
 		#endregion
 
 		#region Private methods
