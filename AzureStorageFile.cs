@@ -61,6 +61,13 @@ namespace Grammophone.Storage.Azure
 			return await cloudBlockBlob.OpenWriteAsync();
 		}
 
+		public async Task DownloadToStreamAsync(Stream stream)
+		{
+			if (stream == null) throw new ArgumentNullException(nameof(stream));
+
+			await cloudBlockBlob.DownloadToStreamAsync(stream);
+		}
+
 		#endregion
 	}
 }
