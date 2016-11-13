@@ -21,32 +21,27 @@ namespace Grammophone.Storage.Azure
 
 		#region Construction
 
-		internal AzureStorageContainer(CloudBlobContainer cloudBlobContainer)
+		internal AzureStorageContainer(CloudBlobContainer cloudBlobContainer, AzureStorageClient client)
 		{
 			if (cloudBlobContainer == null) throw new ArgumentNullException(nameof(cloudBlobContainer));
+			if (client == null) throw new ArgumentNullException(nameof(client));
 
 			this.cloudBlobContainer = cloudBlobContainer;
+
+			this.Client = client;
 		}
 
 		#endregion
 
 		#region Public properties
 
-		public string Name
-		{
-			get
-			{
-				return cloudBlobContainer.Name;
-			}
-		}
+		public AzureStorageClient Client { get; private set; }
 
-		public Uri URI
-		{
-			get
-			{
-				return cloudBlobContainer.Uri;
-			}
-		}
+		IStorageClient IStorageContainer.Client => this.Client;
+
+		public string Name => cloudBlobContainer.Name;
+
+		public Uri URI => cloudBlobContainer.Uri;
 
 		#endregion
 

@@ -50,7 +50,7 @@ namespace Grammophone.Storage.Azure
 		/// </summary>
 		public IStorageClient GetClient()
 		{
-			return new AzureStorageClient(this.ConnectionString);
+			return new AzureStorageClient(this.ConnectionString, this);
 		}
 
 		#endregion

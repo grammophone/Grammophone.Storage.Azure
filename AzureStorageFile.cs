@@ -17,8 +17,6 @@ namespace Grammophone.Storage.Azure
 
 		private CloudBlockBlob cloudBlockBlob;
 
-		private AzureStorageContainer container;
-
 		#endregion
 
 		#region Construction
@@ -29,52 +27,25 @@ namespace Grammophone.Storage.Azure
 			if (container == null) throw new ArgumentNullException(nameof(container));
 
 			this.cloudBlockBlob = cloudBlockBlob;
-			this.container = container;
+
+			this.Container = container;
 		}
 
 		#endregion
 
 		#region Public properties
 
-		public IStorageContainer Container
-		{
-			get
-			{
-				return container;
-			}
-		}
+		public AzureStorageContainer Container { get; private set; }
 
-		public string ContentType
-		{
-			get
-			{
-				return cloudBlockBlob.Properties.ContentType;
-			}
-		}
+		IStorageContainer IStorageFile.Container => this.Container;
 
-		public DateTimeOffset LastModificationDate
-		{
-			get
-			{
-				return cloudBlockBlob.Properties.LastModified.Value;
-			}
-		}
+		public string ContentType => cloudBlockBlob.Properties.ContentType;
 
-		public string Name
-		{
-			get
-			{
-				return cloudBlockBlob.Name;
-			}
-		}
+		public DateTimeOffset LastModificationDate => cloudBlockBlob.Properties.LastModified.Value;
 
-		public Uri URI
-		{
-			get
-			{
-				return cloudBlockBlob.Uri;
-			}
-		}
+		public string Name => cloudBlockBlob.Name;
+
+		public Uri URI => cloudBlockBlob.Uri;
 
 		#endregion
 
@@ -89,10 +60,6 @@ namespace Grammophone.Storage.Azure
 		{
 			return await cloudBlockBlob.OpenWriteAsync();
 		}
-
-		#endregion
-
-		#region Private methods
 
 		#endregion
 	}

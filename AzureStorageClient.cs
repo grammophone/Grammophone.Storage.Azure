@@ -25,14 +25,26 @@ namespace Grammophone.Storage.Azure
 		/// Create.
 		/// </summary>
 		/// <param name="connectionString">The connection string to an Azure storage account.</param>
-		internal AzureStorageClient(string connectionString)
+		/// <param name="provider">The provider creating this client.</param>
+		internal AzureStorageClient(string connectionString, AzureStorageProvider provider)
 		{
 			if (connectionString == null) throw new ArgumentNullException(nameof(connectionString));
+			if (provider == null) throw new ArgumentNullException(nameof(provider));
 
 			var account = CloudStorageAccount.Parse(connectionString);
 
 			cloudBlobClient = account.CreateCloudBlobClient();
+
+			this.Provider = provider;
 		}
+
+		#endregion
+
+		#region Public properties
+
+		public AzureStorageProvider Provider { get; private set; }
+
+		IStorageProvider IStorageClient.Provider => this.Provider;
 
 		#endregion
 
@@ -46,7 +58,12 @@ namespace Grammophone.Storage.Azure
 
 			if (!(await cloudBlobContainer.ExistsAsync())) return null;
 
-			return new AzureStorageContainer(cloudBlobContainer);
+			return new AzureStorageContainer(cloudBlobContainer, this);
+		}
+
+		Task<IStorageContainer> IStorageClient.GetContainerAsync(string containerName)
+		{
+			throw new NotImplementedException();
 		}
 
 		#endregion
