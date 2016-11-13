@@ -47,6 +47,16 @@ namespace Grammophone.Storage.Azure
 
 		public Uri URI => cloudBlockBlob.Uri;
 
+		public IDictionary<string, string> Metadata
+		{
+			get
+			{
+				cloudBlockBlob.FetchAttributes();
+
+				return cloudBlockBlob.Metadata;
+			}
+		}
+
 		#endregion
 
 		#region Public methods
@@ -66,6 +76,11 @@ namespace Grammophone.Storage.Azure
 			if (stream == null) throw new ArgumentNullException(nameof(stream));
 
 			await cloudBlockBlob.DownloadToStreamAsync(stream);
+		}
+
+		public async Task SaveMetadataAsync()
+		{
+			await cloudBlockBlob.SetMetadataAsync();
 		}
 
 		#endregion
