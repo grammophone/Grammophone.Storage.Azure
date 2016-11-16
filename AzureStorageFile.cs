@@ -63,19 +63,42 @@ namespace Grammophone.Storage.Azure
 
 		public async Task<Stream> OpenReadAsync()
 		{
-			return await cloudBlockBlob.OpenReadAsync();
+			return await cloudBlockBlob.OpenReadAsync(
+				null, 
+				this.Container.Client.Provider.CreateDefaultReadRequestOptions(), 
+				null);
 		}
 
-		public async Task<Stream> OpenWriteAsync()
+		public async Task<Stream> OpenWriteAsync(bool encrypt)
 		{
-			return await cloudBlockBlob.OpenWriteAsync();
+			return await cloudBlockBlob.OpenWriteAsync(
+				null,
+				this.Container.Client.Provider.CreateDefaultWriteRequestOptions(encrypt),
+				null);
 		}
 
 		public async Task DownloadToStreamAsync(Stream stream)
 		{
 			if (stream == null) throw new ArgumentNullException(nameof(stream));
 
-			await cloudBlockBlob.DownloadToStreamAsync(stream);
+			await cloudBlockBlob.DownloadToStreamAsync(
+				stream,
+				null,
+				this.Container.Client.Provider.CreateDefaultReadRequestOptions(),
+				null);
+		}
+
+		public async Task UploadFromStreamAsync(Stream stream, bool encrypt)
+		{
+			if (stream == null) throw new ArgumentNullException(nameof(stream));
+
+			await cloudBlockBlob.UploadFromStreamAsync(
+				stream, 
+				null, 
+				this.Container.Client.Provider.CreateDefaultWriteRequestOptions(encrypt),
+				null);
+
+			await cloudBlockBlob.FetchAttributesAsync();
 		}
 
 		public async Task SaveMetadataAsync()

@@ -47,7 +47,7 @@ namespace Grammophone.Storage.Azure
 
 		#region Public methods
 
-		public async Task<IStorageFile> CreateFileAsync(string filename, string contentType, Stream stream = null, bool overwrite = true)
+		public async Task<IStorageFile> CreateFileAsync(string filename, string contentType, bool overwrite = true)
 		{
 			if (filename == null) throw new ArgumentNullException(nameof(filename));
 			if (contentType == null) throw new ArgumentNullException(nameof(contentType));
@@ -60,11 +60,6 @@ namespace Grammophone.Storage.Azure
 				{
 					throw new StorageException($"The file '{filename}' already exists.");
 				}
-			}
-
-			if (stream != null)
-			{
-				await blob.UploadFromStreamAsync(stream);
 			}
 
 			blob.Properties.ContentType = contentType;
