@@ -29,6 +29,7 @@ namespace Grammophone.Storage.Azure
 			if (base64EncryptionKey == null) throw new ArgumentNullException(nameof(base64EncryptionKey));
 
 			this.URLBase = urlBase;
+			this.ConnectionString = connectionString;
 
 			try
 			{
