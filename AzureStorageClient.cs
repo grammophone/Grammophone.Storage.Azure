@@ -61,11 +61,6 @@ namespace Grammophone.Storage.Azure
 			return new AzureStorageContainer(cloudBlobContainer, this);
 		}
 
-		Task<IStorageContainer> IStorageClient.GetContainerAsync(string containerName)
-		{
-			throw new NotImplementedException();
-		}
-
 		#endregion
 	}
 }
