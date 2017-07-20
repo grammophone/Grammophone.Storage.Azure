@@ -63,8 +63,6 @@ namespace Grammophone.Storage.Azure
 			}
 
 			blob.Properties.ContentType = contentType;
-			await blob.SetPropertiesAsync();
-			await blob.FetchAttributesAsync();
 
 			return new AzureStorageFile(blob, this);
 		}
