@@ -47,6 +47,26 @@ namespace Grammophone.Storage.Azure
 
 		#region Public methods
 
+		public IStorageFile CreateFile(string filename, string contentType, bool overwrite = true)
+		{
+			if (filename == null) throw new ArgumentNullException(nameof(filename));
+			if (contentType == null) throw new ArgumentNullException(nameof(contentType));
+
+			var blob = cloudBlobContainer.GetBlockBlobReference(filename);
+
+			if (!overwrite)
+			{
+				if (!blob.Exists())
+				{
+					throw new StorageException($"The file '{filename}' already exists.");
+				}
+			}
+
+			blob.Properties.ContentType = contentType;
+
+			return new AzureStorageFile(blob, this);
+		}
+
 		public async Task<IStorageFile> CreateFileAsync(string filename, string contentType, bool overwrite = true)
 		{
 			if (filename == null) throw new ArgumentNullException(nameof(filename));
@@ -67,6 +87,15 @@ namespace Grammophone.Storage.Azure
 			return new AzureStorageFile(blob, this);
 		}
 
+		public bool DeleteFile(string filename)
+		{
+			if (filename == null) throw new ArgumentNullException(nameof(filename));
+
+			var blob = cloudBlobContainer.GetBlockBlobReference(filename);
+
+			return blob.DeleteIfExists();
+		}
+
 		public async Task<bool> DeleteFileAsync(string filename)
 		{
 			if (filename == null) throw new ArgumentNullException(nameof(filename));
@@ -76,6 +105,15 @@ namespace Grammophone.Storage.Azure
 			return await blob.DeleteIfExistsAsync();
 		}
 
+		public bool FileExists(string filename)
+		{
+			if (filename == null) throw new ArgumentNullException(nameof(filename));
+
+			var blob = cloudBlobContainer.GetBlockBlobReference(filename);
+
+			return blob.Exists();
+		}
+
 		public async Task<bool> FileExistsAsync(string filename)
 		{
 			if (filename == null) throw new ArgumentNullException(nameof(filename));
@@ -83,6 +121,19 @@ namespace Grammophone.Storage.Azure
 			var blob = cloudBlobContainer.GetBlockBlobReference(filename);
 
 			return await blob.ExistsAsync();
+		}
+
+		public IStorageFile GetFile(string filename)
+		{
+			if (filename == null) throw new ArgumentNullException(nameof(filename));
+
+			var blob = cloudBlobContainer.GetBlockBlobReference(filename);
+
+			if (!blob.Exists()) return null;
+
+			blob.FetchAttributes();
+
+			return new AzureStorageFile(blob, this);
 		}
 
 		public async Task<IStorageFile> GetFileAsync(string filename)

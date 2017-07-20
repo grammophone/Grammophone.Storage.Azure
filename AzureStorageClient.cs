@@ -50,6 +50,17 @@ namespace Grammophone.Storage.Azure
 
 		#region Public methods
 
+		public IStorageContainer GetContainer(string containerName)
+		{
+			if (containerName == null) throw new ArgumentNullException(nameof(containerName));
+
+			var cloudBlobContainer = cloudBlobClient.GetContainerReference(containerName);
+
+			if (!cloudBlobContainer.Exists()) return null;
+
+			return new AzureStorageContainer(cloudBlobContainer, this);
+		}
+
 		public async Task<IStorageContainer> GetContainerAsync(string containerName)
 		{
 			if (containerName == null) throw new ArgumentNullException(nameof(containerName));

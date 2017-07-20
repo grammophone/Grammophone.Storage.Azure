@@ -61,6 +61,14 @@ namespace Grammophone.Storage.Azure
 
 		#region Public methods
 
+		public Stream OpenRead()
+		{
+			return cloudBlockBlob.OpenRead(
+				null,
+				this.Container.Client.Provider.CreateDefaultReadRequestOptions(),
+				null);
+		}
+
 		public async Task<Stream> OpenReadAsync()
 		{
 			return await cloudBlockBlob.OpenReadAsync(
@@ -69,11 +77,30 @@ namespace Grammophone.Storage.Azure
 				null);
 		}
 
+		public Stream OpenWrite(bool encrypt)
+		{
+			return cloudBlockBlob.OpenWrite(
+				null,
+				this.Container.Client.Provider.CreateDefaultWriteRequestOptions(encrypt),
+				null);
+		}
+
 		public async Task<Stream> OpenWriteAsync(bool encrypt)
 		{
 			return await cloudBlockBlob.OpenWriteAsync(
 				null,
 				this.Container.Client.Provider.CreateDefaultWriteRequestOptions(encrypt),
+				null);
+		}
+
+		public void DownloadToStream(Stream stream)
+		{
+			if (stream == null) throw new ArgumentNullException(nameof(stream));
+
+			cloudBlockBlob.DownloadToStream(
+				stream,
+				null,
+				this.Container.Client.Provider.CreateDefaultReadRequestOptions(),
 				null);
 		}
 
@@ -88,6 +115,19 @@ namespace Grammophone.Storage.Azure
 				null);
 		}
 
+		public void UploadFromStream(Stream stream, bool encrypt)
+		{
+			if (stream == null) throw new ArgumentNullException(nameof(stream));
+
+			cloudBlockBlob.UploadFromStream(
+				stream,
+				null,
+				this.Container.Client.Provider.CreateDefaultWriteRequestOptions(encrypt),
+				null);
+
+			cloudBlockBlob.FetchAttributes();
+		}
+
 		public async Task UploadFromStreamAsync(Stream stream, bool encrypt)
 		{
 			if (stream == null) throw new ArgumentNullException(nameof(stream));
@@ -99,6 +139,11 @@ namespace Grammophone.Storage.Azure
 				null);
 
 			await cloudBlockBlob.FetchAttributesAsync();
+		}
+
+		public void SaveMetadata()
+		{
+			cloudBlockBlob.SetMetadata();
 		}
 
 		public async Task SaveMetadataAsync()
