@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <ProjectGuid>{7875D93D-8E3B-46CA-9049-3A7E6E8DAE42}</ProjectGuid>
-    <TargetFramework>net472</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyTitle>Grammophone.Storage.Azure</AssemblyTitle>
     <Product>Grammophone.Storage.Azure</Product>
     <Copyright>Copyright ©  2016</Copyright>
@@ -15,13 +15,6 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
   </PropertyGroup>
-  <Import Project="..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets'))" />
-  </Target>
   <ItemGroup>
     <PackageReference Include="Hyak.Common" Version="1.2.2" />
     <PackageReference Include="Microsoft.Azure.Common" Version="2.2.1" />
@@ -33,30 +26,19 @@
     <PackageReference Include="Microsoft.Azure.KeyVault.WebKey" Version="3.0.5" />
     <PackageReference Include="Microsoft.Azure.Storage.Blob" Version="11.1.7" />
     <PackageReference Include="Microsoft.Azure.Storage.Common" Version="11.1.7" />
-    <PackageReference Include="Microsoft.Bcl" Version="1.1.10" />
-    <PackageReference Include="Microsoft.Bcl.Async" Version="1.0.168" />
-    <PackageReference Include="Microsoft.Bcl.Build" Version="1.0.21" />
     <PackageReference Include="Microsoft.Data.Edm" Version="5.8.4" />
     <PackageReference Include="Microsoft.Data.OData" Version="5.8.4" />
     <PackageReference Include="Microsoft.Data.Services.Client" Version="5.8.4" />
-    <PackageReference Include="Microsoft.Net.Http" Version="2.2.29" />
     <PackageReference Include="Microsoft.Rest.ClientRuntime" Version="2.3.21" />
     <PackageReference Include="Microsoft.Rest.ClientRuntime.Azure" Version="3.3.19" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="System.ComponentModel.EventBasedAsync" Version="4.3.0" />
+		<PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
     <PackageReference Include="System.Dynamic.Runtime" Version="4.3.0" />
     <PackageReference Include="System.Linq.Queryable" Version="4.3.0" />
-    <PackageReference Include="System.Net.Requests" Version="4.3.0" />
+    <PackageReference Include="System.Net.Http" Version="4.3.4" />
+		<PackageReference Include="System.Net.Requests" Version="4.3.0" />
     <PackageReference Include="System.Spatial" Version="5.8.4" />
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="System.Net" />
-    <Reference Include="System.Net.Http.WebRequest" />
-    <Reference Include="System.Runtime" />
-    <Reference Include="System.Security" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Net.Http" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Grammophone.Storage\Grammophone.Storage.csproj" />
