@@ -6,6 +6,7 @@
     <Product>Grammophone.Storage.Azure</Product>
     <Copyright>Copyright ©  2016</Copyright>
     <NoWarn>1591</NoWarn>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Hyak.Common" Version="1.2.2" />
